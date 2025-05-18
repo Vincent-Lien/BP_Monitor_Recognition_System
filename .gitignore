@@ -1,0 +1,8 @@
+# Ignore zips
+*.zip
+
+# Ignore dataset
+dataset/
+
+# Ignore model checkpoints
+*.pt
