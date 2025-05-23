@@ -5,7 +5,7 @@ model = YOLO('yolo11n.pt')  # 或者YOLO('yolo11.yaml')
 
 # 开始训练
 model.train(
-    data='dataset/data.yaml',    # 数据集配置文件路径
+    data='dataset/localization/data.yaml',    # 数据集配置文件路径
     epochs=50,           # 训练轮数
     imgsz=640,           # 输入图像大小
     batch=16,             # 批量大小
