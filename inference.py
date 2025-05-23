@@ -1,42 +1,67 @@
-import cv2
-from ultralytics import YOLO
 import os
+import csv
+import glob
+import shutil
+from datetime import datetime
 
-# 类别名称列表
-CLASS_NAMES = ['DLA', 'PUL', 'SYS', 'Sphygmomanometer']
-# 希望保存的类别索引 (前三个)
-SAVE_CLASSES = [0, 1, 2]  # 0: DLA, 1: PUL, 2: SYS
+from utils.inference_localization import localization_and_crop_image
+from utils.number_recognition import get_number_from_image
 
-# 加载训练好的模型权重
-model = YOLO('runs/detect/train/weights/best.pt')
 
-# 读取原始图像
-img_path = 'dataset/test/images/91_jpeg.rf.22b311be3d7381b1c5477da0b4358ef7.jpg'
-img = cv2.imread(img_path)
+image_path = 'test_image.png'
+localization_and_crop_image(image_path)
 
-# 进行推理
-results = model(img_path, imgsz=640, conf=0.25, device='0')
+cropped_objects_dir = 'cropped_objects'
+subdirs = ['SYS', 'DLA', 'PUL']
 
-# 创建保存裁剪图的目录
-save_dir = 'cropped_objects'
-os.makedirs(save_dir, exist_ok=True)
+# Dictionary to store numbers from each subdirectory
+results = {}
 
-for i, result in enumerate(results):
-    boxes = result.boxes.xyxy.cpu().numpy()
-    classes = result.boxes.cls.cpu().numpy().astype(int)
+# Process each subdirectory (SYS, DLA, PUL)
+for subdir in subdirs:
+    subdir_path = os.path.join(cropped_objects_dir, subdir)
+    
+    # Check if subdirectory exists
+    if not os.path.exists(subdir_path):
+        print(f"Directory {subdir_path} does not exist, skipping.")
+        continue
+    
+    # Get all image files in the subdirectory
+    image_files = []
+    for ext in ['*.png', '*.jpg', '*.jpeg']:
+        image_files.extend(glob.glob(os.path.join(subdir_path, ext)))
+    
+    # Check if any images were found
+    if not image_files:
+        print(f"No images found in {subdir_path}, skipping.")
+        continue
+    
+    # Sort images to process them in order
+    image_files.sort()
+    
+    # Process the first image to get the number
+    number = get_number_from_image(image_files[0])
+    results[subdir] = number
 
-    for j, (box, cls) in enumerate(zip(boxes, classes)):
-        # 检查类别是否需要保存
-        if cls in SAVE_CLASSES:
-            x1, y1, x2, y2 = map(int, box)
-            crop_img = img[y1:y2, x1:x2]
+# Add current timestamp to results
+results['Timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            # 使用类别名称作为文件夹名
-            class_name = CLASS_NAMES[cls]
-            class_dir = os.path.join(save_dir, class_name)
-            os.makedirs(class_dir, exist_ok=True)
+# Save results to CSV with append mode
+csv_file = 'bp_readings.csv'
+file_exists = os.path.isfile(csv_file)
 
-            crop_path = os.path.join(class_dir, f'crop_{i}_{j}.jpg')
-            cv2.imwrite(crop_path, crop_img)
+# Define fieldnames with Timestamp first
+fieldnames = ['Timestamp'] + subdirs
 
-print(f'指定类别的裁剪图已分别保存到 {save_dir} 下的子文件夹中')
+with open(csv_file, 'a', newline='') as f:  # 'a' for append mode
+    writer = csv.DictWriter(f, fieldnames=fieldnames)
+    if not file_exists:  # Only write header if file doesn't exist
+        writer.writeheader()
+    writer.writerow(results)
+
+print(f"Results appended to {csv_file}")
+
+# Delete the cropped_objects directory and all its contents
+if os.path.exists(cropped_objects_dir):
+    shutil.rmtree(cropped_objects_dir)
+    print(f"Deleted {cropped_objects_dir} directory")
