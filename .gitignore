@@ -10,6 +10,7 @@ dataset/
 
 # Ignore model checkpoints
 *.pt
+*.pth
 
 # Ignore configs
 config.json
