@@ -6,7 +6,7 @@ def localization_and_crop_image(
     model_path='checkpoints/localization_best.pt',
     class_names=None,
     save_classes=None,
-    conf_start=0.50,
+    conf_start=0.46,
     conf_min=0.05,
     imgsz=640,
     device='0',
