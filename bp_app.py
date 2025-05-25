@@ -162,11 +162,11 @@ def create_bp_plot():
     return fig
 
 # Gradio 界面定義
-with gr.Blocks(title="血壓紀錄小幫手", theme=gr.themes.Soft(primary_hue=gr.themes.colors.blue, secondary_hue=gr.themes.colors.cyan)) as demo:
+with gr.Blocks(title="血壓記錄小幫手", theme=gr.themes.Soft(primary_hue=gr.themes.colors.blue, secondary_hue=gr.themes.colors.cyan)) as demo:
     gr.Markdown(
         """
         <div style="text-align: center;">
-            <h1 style="color: #ffffff; font-family: 'Arial', sans-serif;">血壓紀錄小幫手 🩺</h1>
+            <h1 style="color: #ffffff; font-family: 'Arial', sans-serif;">血壓記錄小幫手 🩺</h1>
             <p style="color: #ffffff; font-size: 1.1em;">
                 歡迎使用！請上傳您的血壓計螢幕照片，系統將自動辨識讀數並為您繪製健康趨勢圖。
             </p>
