@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ## Run directly
 
 ### Download Checkpoints
-1. Download the checkpoints from this link: 
+1. Download the checkpoints from this link: https://drive.google.com/file/d/1RicowZ_WhDdbD7_6BlmGC8gKyjMzJqwF/view?usp=sharing  
 2. Put the checkpoints into `checkpoints`
 ```
 mkdir checkpoints
