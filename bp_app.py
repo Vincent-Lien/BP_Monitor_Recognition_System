@@ -139,7 +139,7 @@ def create_bp_plot():
     fig, ax = plt.subplots(figsize=(8, 4)) # 調整圖表大小
     ax.plot(df['timestamp'], df['SYS'], marker='o', linestyle='-', label='Systolic (mmHg)', color='#ff6347', linewidth=2) # 番茄紅
     ax.plot(df['timestamp'], df['DIA'], marker='o', linestyle='-', label='Diastolic (mmHg)', color='#4682b4', linewidth=2) # 鋼青藍
-    ax.plot(df['timestamp'], df['PUL'], marker='s', linestyle='--', label='Pulse (bpm)', color='#3cb371', linewidth=2) # 中海綠
+    ax.plot(df['timestamp'], df['PUL'], marker='s', linestyle='--', label='Pulse (/min)', color='#3cb371', linewidth=2) # 中海綠
 
     ax.set_xlabel("Record Time", fontsize=12)
     ax.set_ylabel("Measured Value", fontsize=12)
