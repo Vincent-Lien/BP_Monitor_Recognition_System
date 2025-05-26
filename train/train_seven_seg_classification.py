@@ -50,10 +50,10 @@ def train_seven_segment_classifier(
     data_dir,
     val_dir=None,
     val_split=0.2,
-    batch_size=256,
-    num_epochs=3,
+    batch_size=32,
+    num_epochs=20,
     learning_rate=0.001,
-    model_save_path='checkpoints/seven_seg_classification_best.pth'
+    model_save_path='checkpoints/seven_seg_classification_best-1.pth'
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
@@ -184,8 +184,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Train seven-segment classifier')
     parser.add_argument('--data_dir', type=str, required=True, help='Path to dataset')
     parser.add_argument('--val_dir', type=str, default=None, help='Path to validation set')
-    parser.add_argument('--batch_size', type=int, default=32, help='Batch size')
-    parser.add_argument('--epochs', type=int, default=20, help='Number of epochs')
+    parser.add_argument('--batch_size', type=int, default=256, help='Batch size')
+    parser.add_argument('--epochs', type=int, default=3, help='Number of epochs')
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     
     args = parser.parse_args()
