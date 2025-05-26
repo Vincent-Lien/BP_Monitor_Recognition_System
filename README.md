@@ -1,6 +1,19 @@
 # BP_Monitor_Recognition_System
 圖形識別期末專題：血壓記錄小幫手
 
+## Setup
+The repo is run on Python 3.12.3  
+1. You can install the libraries by
+```
+pip install -r requirements.txt
+```
+2. If you are using conda
+```
+conda create -n bp_monitor python=3.12.3
+conda activate bp_monitor
+pip install -r requirements.txt
+```
+
 ## Run directly
 
 ### Download Checkpoints
