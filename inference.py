@@ -12,6 +12,10 @@ for image in sorted(os.listdir(image_folder)):
 
     # 切出SYS、DIA、PUL三個區域
     result_images = localization_and_crop_image(image)
+
+    if not result_images:
+        print(f"Failed to process image: {image}")
+        continue
     
     sys_image = result_images.get('SYS')
     dia_image = result_images.get('DIA')
