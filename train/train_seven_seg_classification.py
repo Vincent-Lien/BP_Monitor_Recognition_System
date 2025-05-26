@@ -53,7 +53,7 @@ def train_seven_segment_classifier(
     batch_size=32,
     num_epochs=20,
     learning_rate=0.001,
-    model_save_path='checkpoints/seven_seg_classification_best-1.pth'
+    model_save_path='checkpoints/seven_seg_classification_best.pth'
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
