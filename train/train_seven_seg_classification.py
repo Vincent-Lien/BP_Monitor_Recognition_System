@@ -53,7 +53,8 @@ def train_seven_segment_classifier(
     batch_size=32,
     num_epochs=20,
     learning_rate=0.001,
-    model_save_path='checkpoints/seven_seg_classification_best.pth'
+    model_save_path='checkpoints/seven_seg_classification_best.pth',
+    save_history=False
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
@@ -162,21 +163,22 @@ def train_seven_segment_classifier(
             torch.save(model.state_dict(), model_save_path)
             print(f'Saved improved model to {model_save_path}')
     
-    # Plotting code remains the same
-    plt.figure(figsize=(12, 4))
-    plt.subplot(1, 2, 1)
-    plt.plot(history['train_loss'], label='Train')
-    plt.plot(history['val_loss'], label='Validation')
-    plt.title('Loss')
-    plt.legend()
-    
-    plt.subplot(1, 2, 2)
-    plt.plot(history['train_acc'], label='Train')
-    plt.plot(history['val_acc'], label='Validation')
-    plt.title('Accuracy')
-    plt.legend()
-    
-    plt.savefig('training_history.png')
+    if save_history:
+        # Plotting code remains the same
+        plt.figure(figsize=(12, 4))
+        plt.subplot(1, 2, 1)
+        plt.plot(history['train_loss'], label='Train')
+        plt.plot(history['val_loss'], label='Validation')
+        plt.title('Loss')
+        plt.legend()
+        
+        plt.subplot(1, 2, 2)
+        plt.plot(history['train_acc'], label='Train')
+        plt.plot(history['val_acc'], label='Validation')
+        plt.title('Accuracy')
+        plt.legend()
+        
+        plt.savefig('training_history.png')
     return model
 
 
@@ -187,6 +189,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default=256, help='Batch size')
     parser.add_argument('--epochs', type=int, default=3, help='Number of epochs')
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
+    parser.add_argument('--save_history', type=bool, default=False, help='Save training history')
     
     args = parser.parse_args()
     
@@ -195,5 +198,6 @@ if __name__ == "__main__":
         val_dir=args.val_dir,
         batch_size=args.batch_size,
         num_epochs=args.epochs,
-        learning_rate=args.lr
+        learning_rate=args.lr,
+        save_history=args.save_history
     )
