@@ -139,4 +139,4 @@ If you want to train the models yourself, follow these steps:
 
 ---
 
-*This project is a final final project for the Pattern Recognition course in 2024 spring semester at National Yang Ming Chiao Tung University.*
+*This project is a final project for the Pattern Recognition course in 2024 spring semester at National Yang Ming Chiao Tung University.*
